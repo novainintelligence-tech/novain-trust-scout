@@ -16,6 +16,7 @@ import {
   FileText,
   Crosshair,
   Users,
+  CreditCard,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -41,6 +42,7 @@ const overview = [
   { title: "Workflow", url: "/methodology", icon: Workflow },
   { title: "Engagement Report", url: "/report", icon: FileText },
   { title: "PoC Validator", url: "/validator", icon: Crosshair },
+  { title: "Billing & credits", url: "/billing", icon: CreditCard },
 ];
 
 const modules = [
@@ -68,7 +70,7 @@ export function AppSidebar() {
   const signOut = async () => {
     await queryClient.cancelQueries();
     queryClient.clear();
-    await supabase.auth.signOut();
+    await supabase?.auth.signOut();
     toast.success("Signed out");
     navigate({ to: "/auth", replace: true });
   };

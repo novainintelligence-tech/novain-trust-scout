@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BillingRouteImport } from './routes/billing'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as CsrfRouteImport } from './routes/csrf'
 import { Route as HeadersRouteImport } from './routes/headers'
@@ -48,6 +49,11 @@ const AuditRoute = AuditRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BillingRoute = BillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookiesRoute = CookiesRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
+  '/billing': typeof BillingRoute
   '/cookies': typeof CookiesRoute
   '/csrf': typeof CsrfRoute
   '/headers': typeof HeadersRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
+  '/billing': typeof BillingRoute
   '/cookies': typeof CookiesRoute
   '/csrf': typeof CsrfRoute
   '/headers': typeof HeadersRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
+  '/billing': typeof BillingRoute
   '/cookies': typeof CookiesRoute
   '/csrf': typeof CsrfRoute
   '/headers': typeof HeadersRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/audit'
     | '/auth'
+    | '/billing'
     | '/cookies'
     | '/csrf'
     | '/headers'
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/audit'
     | '/auth'
+    | '/billing'
     | '/cookies'
     | '/csrf'
     | '/headers'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/audit'
     | '/auth'
+    | '/billing'
     | '/cookies'
     | '/csrf'
     | '/headers'
@@ -272,6 +284,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuditRoute: typeof AuditRoute
   AuthRoute: typeof AuthRoute
+  BillingRoute: typeof BillingRoute
   CookiesRoute: typeof CookiesRoute
   CsrfRoute: typeof CsrfRoute
   HeadersRoute: typeof HeadersRoute
@@ -318,6 +331,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/billing': {
+      id: '/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof BillingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookies': {
@@ -440,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuditRoute: AuditRoute,
   AuthRoute: AuthRoute,
+  BillingRoute: BillingRoute,
   CookiesRoute: CookiesRoute,
   CsrfRoute: CsrfRoute,
   HeadersRoute: HeadersRoute,
