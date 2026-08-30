@@ -91,6 +91,10 @@ class Settings(BaseSettings):
     PAYMENT_WEBHOOK_SECRET: str = "change-me-payment-webhook-secret"
     PAYMENT_WEBHOOK_MAX_AGE_SECONDS: int = 300
     PAYMENT_CHECKOUT_BASE_URL: str = "https://pay.novain.test"
+    STRIPE_SECRET_KEY: Optional[str] = None
+    STRIPE_WEBHOOK_SECRET: Optional[str] = None
+    STRIPE_SUCCESS_URL: str = "http://localhost:5173/billing/success?session_id={CHECKOUT_SESSION_ID}"
+    STRIPE_CANCEL_URL: str = "http://localhost:5173/billing/cancelled"
 
     # Trusted proxy / host headers (optional)
     TRUSTED_HOSTS: str = ""
