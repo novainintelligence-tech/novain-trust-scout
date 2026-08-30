@@ -1,0 +1,55 @@
+# NOVAIN TRUST — production-oriented compose
+# Required host env: SECRET_KEY, ADMIN_TOKEN (min lengths enforced at runtime)
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: novain
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      POSTGRES_DB: novain_trust
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U novain -d novain_trust"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - novain
+
+  api:
+    build: .
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      ENVIRONMENT: production
+      DEBUG: "false"
+      DATABASE_URL: postgresql+asyncpg://novain:${POSTGRES_PASSWORD}@db:5432/novain_trust
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY (openssl rand -hex 32)}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:?Set ADMIN_TOKEN (openssl rand -hex 24)}
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-60}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
+      GOOGLE_SAFE_BROWSING_API_KEY: ${GOOGLE_SAFE_BROWSING_API_KEY:-}
+      VIRUSTOTAL_API_KEY: ${VIRUSTOTAL_API_KEY:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      ENABLE_DOCS: ${ENABLE_DOCS:-false}
+      VERIFY_CACHE_TTL_SECONDS: ${VERIFY_CACHE_TTL_SECONDS:-300}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - novain
+    read_only: false
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  pgdata:
+
+networks:
+  novain:
+    driver: bridge

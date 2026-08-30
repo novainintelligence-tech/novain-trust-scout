@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "description": "Labeled evaluation set for novain-risk-2.0 calibration. Labels are human/analyst prior labels for offline scoring validation — not live threat intel.",
+  "labels": {
+    "legit": "Established legitimate site expected medium-high score when reachable",
+    "suspicious": "Elevated risk but not confirmed malware",
+    "malicious": "Known or strongly suspected phishing/malware"
+  },
+  "samples": [
+    {"target": "https://example.com", "label": "legit", "notes": "IANA example"},
+    {"target": "https://www.wikipedia.org", "label": "legit", "notes": "Major content site"},
+    {"target": "https://github.com", "label": "legit", "notes": "Major SaaS"},
+    {"target": "https://www.cloudflare.com", "label": "legit", "notes": "Infrastructure vendor"},
+    {"target": "https://www.google.com", "label": "legit", "notes": "Major search"},
+    {"target": "https://www.microsoft.com", "label": "legit", "notes": "Major vendor"},
+    {"target": "https://www.apple.com", "label": "legit", "notes": "Major vendor"},
+    {"target": "https://www.amazon.com", "label": "legit", "notes": "Major commerce"},
+    {"target": "https://www.bbc.com", "label": "legit", "notes": "Major media"},
+    {"target": "https://www.nytimes.com", "label": "legit", "notes": "Major media"}
+  ]
+}
